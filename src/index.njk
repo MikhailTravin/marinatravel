@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" >
+<html lang="ru">
 
 <head>
 	<title>Главная страница</title>
@@ -11,7 +11,7 @@
 		{% include 'blocks/header.njk' %}
 		<main class="main">
 
-			<div class="block-banner">
+			<div class="block-banner banner-home">
 				<img src="img/bg1.webp" alt="" class="block-banner__bg">
 				<img data-da=".block-banner__top, 1320" src="img/image1.webp" alt="" class="block-banner__pic1">
 				<img data-da=".block-banner__top, 1320" src="img/image2.webp" alt="" class="block-banner__pic2">
@@ -541,10 +541,547 @@
 				</div>
 			</div>
 
-			<br><br><br><br><br><br><br><br><br><br>
+			<div class="block-benefits">
+				<div class="container">
+					<div class="block-benefits__body">
+						<div class="block-benefits__column">
+							<div class="block-benefits__icon">
+								<img loading="lazy" src="img/icon/icon1.svg" alt="">
+							</div>
+							<span>Надежный туроператор</span>
+						</div>
+						<div class="block-benefits__column">
+							<div class="block-benefits__icon">
+								<img loading="lazy" src="img/icon/icon2.svg" alt="">
+							</div>
+							<span>Учет всех пожеланий</span>
+						</div>
+						<div class="block-benefits__column">
+							<div class="block-benefits__icon">
+								<img loading="lazy" src="img/icon/icon3.svg" alt="">
+							</div>
+							<span>Опытные специалисты</span>
+						</div>
+						<div class="block-benefits__column">
+							<div class="block-benefits__icon">
+								<img loading="lazy" src="img/icon/icon4.svg" alt="">
+							</div>
+							<span>Гарантия качества</span>
+						</div>
+						<div class="block-benefits__column">
+							<div class="block-benefits__icon">
+								<img loading="lazy" src="img/icon/icon5.svg" alt="">
+							</div>
+							<span>Яркие эмоции у детей и взрослых</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-tours">
+				<div class="container">
+					<div class="block-tours__body">
+						<div class="block-tours__column">
+							<div class="block-tours__title">
+								<img loading="lazy" src="img/icon/butterfly1.svg" alt="">
+								<span>Туры по классам</span>
+							</div>
+							<div data-showmore="items" class="block-tours__item">
+								<ul data-showmore-content="9">
+									<li>
+										<a href="#">
+											<span>Для дошкольников</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>1 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>2 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>3 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>4 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>5 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>6 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>7 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>8 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>8 класс</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>8 класс</span>
+										</a>
+									</li>
+								</ul>
+								<button hidden data-showmore-button type="button"
+									class="block-tours__more btn btn-green">
+									<span>Смотреть все</span>
+									<span>Скрыть</span>
+								</button>
+							</div>
+						</div>
+						<div class="block-tours__column">
+							<div class="block-tours__title">
+								<img loading="lazy" src="img/icon/butterfly2.svg" alt="">
+								<span>Туры по событиям</span>
+							</div>
+							<div data-showmore="items" class="block-tours__item">
+								<ul data-showmore-content="9">
+									<li>
+										<a href="#">
+											<span>1 сентября</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>День учителя</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Новый год</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Масленица</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Выпускной</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>1 сентября</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>День учителя</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Новый год</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Масленица</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Выпускной</span>
+										</a>
+									</li>
+								</ul>
+								<button hidden data-showmore-button type="button"
+									class="block-tours__more btn btn-green">
+									<span>Смотреть все</span>
+									<span>Скрыть</span>
+								</button>
+							</div>
+						</div>
+						<div class="block-tours__column">
+							<div class="block-tours__title">
+								<img loading="lazy" src="img/icon/butterfly3.svg" alt="">
+								<span>Туры по событиям</span>
+							</div>
+							<div data-showmore="items" class="block-tours__item">
+								<ul data-showmore-content="9">
+									<li>
+										<a href="#">
+											<span>Москва</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Санкт-Петербург</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Нижний Новгород</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Казань</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Горячий ключ</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Донецк</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Ярославль</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Сочи</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Владикавказ</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Владикавказ</span>
+										</a>
+									</li>
+								</ul>
+								<button hidden data-showmore-button type="button"
+									class="block-tours__more btn btn-green">
+									<span>Смотреть все</span>
+									<span>Скрыть</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-team">
+				<div class="container">
+					<div class="block-team__content">
+						<img loading="lazy" src="img/image7.webp" alt="" class="block-team__pic1">
+						<img loading="lazy" src="img/image8.webp" alt="" class="block-team__pic2">
+						<img loading="lazy" src="img/image9.webp" alt="" class="block-team__pic3">
+						<div class="block-team__image">
+							<h2 class="title2">
+								<span>Наша команда</span> - это группа счастливых людей, работающих
+								вместе
+							</h2>
+							<img loading="lazy" src="img/image10.webp" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-excursions">
+				<img loading="lazy" src="img/bg2.webp" alt="" class="block-excursions__bg">
+				<div class="container">
+					<div class="heading-complex">
+						<h2 class="title2"><span>Наши</span> авторские экскурсии</h2>
+						<div data-da=".block-excursions__content, 992, last" class="arrows">
+							<div class="block-excursions__arrow-prev arrow-prev">
+								<img loading="lazy" src="img/icon/arrow2.svg" alt="">
+							</div>
+							<div class="block-excursions__arrow-next arrow-next">
+								<img loading="lazy" src="img/icon/arrow2.svg" alt="">
+							</div>
+						</div>
+					</div>
+					<div class="block-excursions__content">
+						<div class="block-excursions__slider swiper">
+							<div class="block-excursions__wrapper swiper-wrapper">
+								<div class="block-excursions__slide swiper-slide">
+									<div class="cart-excursions">
+										<a href="#" class="cart-excursions__image">
+											<div class="cart-excursions__hit"><span>Хиты<br> продаж</span></div>
+											<div class="cart-excursions__tag">86 туров</div>
+											<img loading="lazy" src="img/image3.webp" alt="">
+										</a>
+										<div class="cart-excursions__item">
+											<div class="cart-excursions__title">В Москве калачи</div>
+											<a href="#" class="btn">
+												<span>Заказать тур</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="block-excursions__slide swiper-slide">
+									<div class="cart-excursions">
+										<a href="#" class="cart-excursions__image">
+											<div class="cart-excursions__hit"><span>Хиты<br> продаж</span></div>
+											<div class="cart-excursions__tag">86 туров</div>
+											<img loading="lazy" src="img/image4.webp" alt="">
+										</a>
+										<div class="cart-excursions__item">
+											<div class="cart-excursions__title">Сказки Пушкина</div>
+											<a href="#" class="btn">
+												<span>Заказать тур</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="block-excursions__slide swiper-slide">
+									<div class="cart-excursions">
+										<a href="#" class="cart-excursions__image">
+											<div class="cart-excursions__hit"><span>Хиты<br> продаж</span></div>
+											<div class="cart-excursions__tag">86 туров</div>
+											<img loading="lazy" src="img/image5.webp" alt="">
+										</a>
+										<div class="cart-excursions__item">
+											<div class="cart-excursions__title">Путешествия вокруг Москвы</div>
+											<a href="#" class="btn">
+												<span>Заказать тур</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="block-excursions__slide swiper-slide">
+									<div class="cart-excursions">
+										<a href="#" class="cart-excursions__image">
+											<div class="cart-excursions__hit"><span>Хиты<br> продаж</span></div>
+											<div class="cart-excursions__tag">86 туров</div>
+											<img loading="lazy" src="img/image6.webp" alt="">
+										</a>
+										<div class="cart-excursions__item">
+											<div class="cart-excursions__title">Посвящение</div>
+											<a href="#" class="btn">
+												<span>Заказать тур</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-descr">
+				<div class="container">
+					<div class="block-descr__content">
+						<img loading="lazy" src="img/image11.webp" alt="" class="block-descr__pic1">
+						<h2 class="title2">
+							<span>Заголовок</span> для СЕО
+						</h2>
+						<div class="block-descr__body">
+							<p>
+								<Span>Мы предлагаем неординарные экскурсионные туры для школьников, во время которых
+									можно не
+									только развлечься, но и интересным способом узнать историю и архитектуру столицы,
+									Подмосковья и других городов.</Span> Внимательные гиды и аниматоры отслеживают
+								реакцию детей и
+								не дают угаснуть их любознательности. Нами руководит доброжелательность, профессионализм
+								и, конечно же, неподдельная любовь к юным путешественникам.
+							</p>
+							<p>
+								Ежедневно мы ставим перед собой сложную задачу – удивлять детей, искушенных гаджетами и
+								последними достижениями техники. Может ли быть захватывающим времяпровождение на улице в
+								21 веке? Мы говорим уверенное «ДА»! Благодаря авторским театрализованным экскурсиям дети
+								несколько часов не будут вспоминать о телефонах и планшетах. «Марина Тревел» приоткроет
+								им окно в мир узких улочек, старинных площадей, загадочных фабрик и ферм. Дикая природа
+								или «каменные джунгли» – выбирать вам!
+							</p>
+							<p>
+								Сотрудничая с нами, вы можете быть уверены в том, что сделали правильный выбор. Более 8
+								лет работы в сфере детского туризма позволяют нам устраивать экскурсии школьникам,
+								которые не оставят равнодушным ни одного ребенка. Среди основных преимуществ нашего
+								туроператора:
+							</p>
+							<ul>
+								<li>
+									<img loading="lazy" src="img/icon/list.svg" alt="">
+									<span>продуманные программы;</span>
+								</li>
+								<li>
+									<img loading="lazy" src="img/icon/list.svg" alt="">
+									<span>надежность;</span>
+								</li>
+								<li>
+									<img loading="lazy" src="img/icon/list.svg" alt="">
+									<span>гарантия безопасности;</span>
+								</li>
+								<li>
+									<img loading="lazy" src="img/icon/list.svg" alt="">
+									<span>приятные цены.</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-calculator">
+				<div class="container">
+					<div class="block-calculator__content">
+						<div class="block-calculator__item">
+							<div class="block-calculator__title">
+								<span>Получите персональное предложение</span> и индивидуальный расчёт стоимости
+								экскурсии!
+							</div>
+							<img loading="lazy" src="img/image8.webp" alt="">
+							<a href="#" data-popup="#excursion" class="btn">
+								<span>Заказать экскурсию</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="block-contacts">
+				<div class="container">
+					<div class="block-contacts__content">
+						<img loading="lazy" src="img/image9.webp" alt="" class="block-contacts__pic1">
+						<img loading="lazy" src="img/image8.webp" alt="" class="block-contacts__pic2">
+						<div class="block-contacts__contacts">
+							<div class="block-contacts__body">
+								<div class="block-contacts__column">
+									<div class="block-contacts__title">
+										Наш адрес
+									</div>
+									<div class="contacts__contact">
+										<div class="contacts__item location">
+											<div class="contacts__icon">
+												<img src="img/icon/location.svg" alt="">
+											</div>
+											<div class="contacts__title">
+												<span>Москва,</span> ул.Воронцовская, д.35Б, корп.2. офис 54
+											</div>
+										</div>
+									</div>
+									<div class="contacts__contact metro">
+										<div class="contacts__item metro1">
+											<img src="img/icon/metro1.svg" alt="">
+											<div class="contacts__title">
+												<span>м. Пролетарская</span>
+											</div>
+										</div>
+										<div class="contacts__item metro2">
+											<img src="img/icon/metro2.svg" alt="">
+											<div class="contacts__title">
+												<span>м. Крестьянская застава</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="block-contacts__column">
+									<div class="block-contacts__title">
+										Номер телефона
+									</div>
+									<div class="contacts__contact">
+										<a href="tel:74956467655" class="contacts__item phone">
+											<div class="contacts__icon">
+												<img src="img/icon/phone.svg" alt="">
+											</div>
+											<div class="contacts__title">
+												7 495 <span>646-76-55</span>
+											</div>
+										</a>
+									</div>
+								</div>
+								<div class="block-contacts__column">
+									<div class="block-contacts__title">
+										Электронная почта
+									</div>
+									<div class="contacts__contact">
+										<a href="mailto:support@marinatravel.ru" class="contacts__item mail">
+											<div class="contacts__icon">
+												<img src="img/icon/mail.svg" alt="">
+											</div>
+											<div class="contacts__title">
+												support@marinatravel.ru
+											</div>
+										</a>
+									</div>
+								</div>
+								<div class="block-contacts__column">
+									<div class="block-contacts__title">
+										Мессенджеры
+									</div>
+									<div class="socials">
+										<a href="#">
+											<img loading="lazy" src="img/icon/telegramm.svg" alt="">
+										</a>
+										<a href="#">
+											<img loading="lazy" src="img/icon/watsapp.svg" alt="">
+										</a>
+									</div>
+								</div>
+							</div>
+							<a href="#" class="btn">
+								<span>Задать вопрос</span>
+							</a>
+						</div>
+						<div id="map1" class="block-contacts__map"></div>
+					</div>
+				</div>
+			</div>
 
 		</main>
 		{% include 'blocks/footer.njk' %}
+	</div>
+	<script
+		src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&amp;lang=ru_RU&amp;_v=20240623012845&_v=20250429150847"></script>
+	{% include 'blocks/popup.njk' %}
+	<div id="excursion" aria-hidden="true" class="popup">
+		<div class="popup__wrapper">
+			<div class="popup__content">
+				<div data-close class="popup__close">
+					<img loading="lazy" src="img/icon/close.svg" alt="">
+				</div>
+				<div class="popup__body">
+					<div class="popup__title">
+						<span>
+							Получить программу на почту
+						</span>
+					</div>
+					<div class="popup__form">
+						<form action="#" class="form">
+							<div class="form__inputs">
+								<div class="form__input">
+									<input data-required="email" autocomplete="off" type="text" name="form[]"
+										placeholder="Введите ваш E-mail">
+								</div>
+							</div>
+							<button type="submit" class="btn">
+								<span>Отправить</span>
+							</button>
+							<div class="form__text">
+								Нажимая на кнопку “Отправить” вы соглашаетесь с политикой конфиденциальностиЭЖ
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	{% include 'blocks/scripts.njk' %}
 </body>
