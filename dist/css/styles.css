@@ -1139,16 +1139,12 @@ a {
     background-color: #f2fafb;
     -webkit-transition: right 0.3s;
     transition: right 0.3s;
-    display: none;
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .top-header__menu::-webkit-scrollbar {
     display: none;
-  }
-  .loaded .top-header__menu {
-    display: block;
   }
   .menu-open .top-header__menu {
     right: 0;
