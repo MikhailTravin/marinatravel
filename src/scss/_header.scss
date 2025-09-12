@@ -335,3 +335,15 @@
     }
   }
 }
+
+/* Скрываем все элементы с data-da до обработки JS */
+[data-da] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Показываем только после того, как JS отработал */
+.loaded [data-da] {
+  opacity: 1;
+  visibility: visible;
+}
