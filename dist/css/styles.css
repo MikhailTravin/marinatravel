@@ -2579,6 +2579,16 @@ a {
   opacity: 0.8;
   color: rgb(43, 42, 41);
 }
+@media (max-width: 768px) {
+  .breadcrumbs ul a {
+    text-shadow: 3px 3px 5px #fff;
+  }
+}
+@media (max-width: 768px) {
+  .breadcrumbs ul span {
+    text-shadow: 3px 3px 5px #fff;
+  }
+}
 
 .block-banner {
   position: relative;
