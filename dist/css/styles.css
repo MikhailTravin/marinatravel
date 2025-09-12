@@ -1139,12 +1139,16 @@ a {
     background-color: #f2fafb;
     -webkit-transition: right 0.3s;
     transition: right 0.3s;
+    display: none;
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .top-header__menu::-webkit-scrollbar {
     display: none;
+  }
+  .loaded .top-header__menu {
+    display: block;
   }
   .menu-open .top-header__menu {
     right: 0;
@@ -1420,6 +1424,18 @@ a {
   .search-header__body .btn {
     display: none;
   }
+}
+
+/* Скрываем все элементы с data-da до обработки JS */
+[data-da] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Показываем только после того, как JS отработал */
+.loaded [data-da] {
+  opacity: 1;
+  visibility: visible;
 }
 
 body {
