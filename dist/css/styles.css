@@ -1344,9 +1344,11 @@ a {
 }
 .search-header__button {
   pointer-events: none;
+  position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  left: 20px;
 }
 .search-header__button img {
   width: 16px;
@@ -1359,6 +1361,8 @@ a {
 @media (max-width: 768px) {
   .search-header__button {
     pointer-events: auto;
+    position: relative;
+    left: 0;
   }
 }
 .search-header__body {
@@ -1373,7 +1377,7 @@ a {
   -webkit-box-shadow: 0 20px 80px 0 rgba(40, 75, 125, 0.2);
           box-shadow: 0 20px 80px 0 rgba(40, 75, 125, 0.2);
   height: 44px;
-  padding: 2px 10px 2px 20px;
+  padding: 2px 10px 2px 0px;
   gap: 15px;
 }
 @media (max-width: 768px) {
@@ -1389,6 +1393,7 @@ a {
   width: 100%;
   font-weight: 400;
   font-size: 14px;
+  padding: 5px 50px;
 }
 .search-header__body input::-webkit-input-placeholder {
   color: rgba(35, 47, 64, 0.6);
@@ -1408,6 +1413,7 @@ a {
 @media (max-width: 768px) {
   .search-header__body input {
     font-size: 13px;
+    padding: 0px 0px 0px 0px;
   }
 }
 @media (max-width: 768px) {
@@ -1829,10 +1835,22 @@ a {
     margin: 0px 0px 9px 0px;
   }
 }
+.contacts__item.location .contacts__title img {
+  display: none;
+}
 @media (max-width: 1320px) {
   .contacts__item.location .contacts__title {
     font-size: 16px;
     line-height: 150%;
+  }
+}
+@media (max-width: 992px) {
+  .contacts__item.location .contacts__title {
+    display: block;
+  }
+  .contacts__item.location .contacts__title img {
+    display: inline;
+    margin: 3px 8px -3px 0px;
   }
 }
 @media (max-width: 480px) {
@@ -1842,6 +1860,11 @@ a {
 }
 .contacts__item.location .contacts__icon {
   margin: 3px 0px 0px 0px;
+}
+@media (max-width: 992px) {
+  .contacts__item.location .contacts__icon {
+    display: none;
+  }
 }
 .contacts__item.metro1 {
   -webkit-box-align: center;
@@ -2568,6 +2591,11 @@ a {
 }
 .block-banner.banner-home .block-banner__content {
   min-height: 505px;
+}
+@media (max-width: 768px) {
+  .block-banner .title1 {
+    text-shadow: 3px 3px 5px #fff;
+  }
 }
 .block-banner__bg {
   position: absolute;
@@ -3816,7 +3844,7 @@ a {
 }
 @media (max-width: 768px) {
   .block-descr {
-    padding: 48px 0px 60px 0px;
+    padding: 48px 0px 30px 0px;
   }
 }
 .block-descr__content {
