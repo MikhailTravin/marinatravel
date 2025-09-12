@@ -42,7 +42,6 @@ let _slideUp = (target, duration = 500) => {
   if (!target.classList.contains("_slide")) {
     target.classList.add("_slide");
 
-    // Сохраняем текущую высоту
     const currentHeight = target.scrollHeight;
 
     target.style.transitionProperty = 'height, margin, padding';
@@ -51,7 +50,6 @@ let _slideUp = (target, duration = 500) => {
     target.style.height = currentHeight + 'px';
     target.style.overflow = 'hidden';
 
-    // Принудительный reflow
     target.offsetHeight;
 
     target.style.height = '0';
@@ -80,11 +78,10 @@ let _slideDown = (target, duration = 500, showmore = 0) => {
   if (!target.classList.contains("_slide")) {
     target.classList.add("_slide");
 
-    // Показываем элемент
     target.style.display = 'block';
     target.style.overflow = 'hidden';
 
-    let height = showmore || target.dataset.originalHeight || target.scrollHeight;
+    let height = showmore || target.scrollHeight;
 
     target.style.height = '0';
     target.style.paddingTop = '0';
@@ -92,7 +89,6 @@ let _slideDown = (target, duration = 500, showmore = 0) => {
     target.style.marginTop = '0';
     target.style.marginBottom = '0';
 
-    // Принудительный reflow
     target.offsetHeight;
 
     target.style.transitionProperty = 'height, margin, padding';
@@ -174,18 +170,13 @@ window.addEventListener('load', function () {
 
 //========================================================================================================================================================
 
-
 //Cпойлер
 function spollers() {
   const spollersArray = document.querySelectorAll("[data-spollers]");
   if (spollersArray.length > 0) {
-    const spollersRegular = Array.from(spollersArray).filter(function (item, index, self) {
-      return !item.dataset.spollers.split(",")[0];
+    spollersArray.forEach(spollersBlock => {
+      initSpollersBlock(spollersBlock);
     });
-
-    if (spollersRegular.length) {
-      initSpollers(spollersRegular);
-    }
 
     let mdQueriesArray = dataMediaQueries(spollersArray, "spollers");
     if (mdQueriesArray && mdQueriesArray.length) {
@@ -212,6 +203,14 @@ function spollers() {
       });
     }
 
+    function initSpollersBlock(spollersBlock) {
+      if (!spollersBlock.classList.contains("_spoller-init")) {
+        spollersBlock.classList.add("_spoller-init");
+        initSpollerBody(spollersBlock);
+        spollersBlock.addEventListener("click", setSpollerAction);
+      }
+    }
+
     function initSpollerBody(spollersBlock, hideSpollerBody = true) {
       let spollerTitles = spollersBlock.querySelectorAll("[data-spoller]");
       if (spollerTitles.length) {
@@ -219,20 +218,23 @@ function spollers() {
         spollerTitles.forEach(spollerTitle => {
           const spollerBody = spollerTitle.nextElementSibling;
 
-          // Сохраняем исходную высоту
           if (!spollerBody.dataset.originalHeight) {
-            // Временно показываем для измерения высоты
+            const originalDisplay = spollerBody.style.display;
+            const originalHeight = spollerBody.style.height;
+            const originalOverflow = spollerBody.style.overflow;
+            const originalTransition = spollerBody.style.transition;
+
             spollerBody.style.display = 'block';
             spollerBody.style.height = 'auto';
+            spollerBody.style.overflow = 'hidden';
+            spollerBody.style.transition = 'none';
+
             spollerBody.dataset.originalHeight = spollerBody.scrollHeight;
 
-            if (hideSpollerBody && !spollerTitle.classList.contains("_spoller-active")) {
-              spollerBody.style.display = 'none';
-              spollerBody.style.height = '0';
-            } else {
-              spollerBody.style.display = 'block';
-              spollerBody.style.height = 'auto';
-            }
+            spollerBody.style.display = originalDisplay || '';
+            spollerBody.style.height = originalHeight || '';
+            spollerBody.style.overflow = originalOverflow || '';
+            spollerBody.style.transition = originalTransition || '';
           }
 
           if (hideSpollerBody) {
@@ -244,6 +246,7 @@ function spollers() {
             } else {
               spollerBody.style.display = 'block';
               spollerBody.style.height = 'auto';
+              spollerBody.style.overflow = '';
             }
           } else {
             spollerTitle.setAttribute("tabindex", "-1");
@@ -257,8 +260,9 @@ function spollers() {
 
     function setSpollerAction(e) {
       const el = e.target;
-      if (el.closest("[data-spoller]")) {
-        const spollerTitle = el.closest("[data-spoller]");
+      const spollerTitle = el.closest("[data-spoller]");
+
+      if (spollerTitle) {
         const spollersBlock = spollerTitle.closest("[data-spollers]");
         const oneSpoller = spollersBlock.hasAttribute("data-one-spoller");
         const spollerSpeed = spollersBlock.dataset.spollersSpeed ? parseInt(spollersBlock.dataset.spollersSpeed) : 500;
@@ -269,14 +273,13 @@ function spollers() {
           }
 
           const spollerBody = spollerTitle.nextElementSibling;
+
           const originalHeight = spollerBody.dataset.originalHeight || spollerBody.scrollHeight;
 
           if (spollerTitle.classList.contains("_spoller-active")) {
-            // Закрываем
             spollerTitle.classList.remove("_spoller-active");
             _slideUp(spollerBody, spollerSpeed);
           } else {
-            // Открываем
             spollerTitle.classList.add("_spoller-active");
             _slideDown(spollerBody, spollerSpeed, originalHeight);
           }
@@ -303,57 +306,9 @@ function spollers() {
         }
       }
     }
-
-    const spollersClose = document.querySelectorAll("[data-spoller-close]");
-    if (spollersClose.length) {
-      document.addEventListener("click", function (e) {
-        const el = e.target;
-        if (!el.closest("[data-spollers]")) {
-          spollersClose.forEach(spollerClose => {
-            const spollersBlock = spollerClose.closest("[data-spollers]");
-            const spollerSpeed = spollersBlock.dataset.spollersSpeed ? parseInt(spollersBlock.dataset.spollersSpeed) : 500;
-            spollerClose.classList.remove("_spoller-active");
-            _slideUp(spollerClose.nextElementSibling, spollerSpeed);
-
-            const parentElement = spollerClose.parentElement;
-            if (parentElement && parentElement !== spollersBlock) {
-              parentElement.classList.remove("_spoller-active");
-            }
-          });
-        }
-      });
-    }
   }
 }
-
 spollers()
-// Пересчет высот после полной загрузки
-window.addEventListener("load", function () {
-  setTimeout(() => {
-    const spollerBodies = document.querySelectorAll('[data-spollers] [data-spoller] + *');
-    spollerBodies.forEach(body => {
-      if (!body.dataset.originalHeight) {
-        // Временно показываем для измерения
-        const originalDisplay = body.style.display;
-        body.style.display = 'block';
-        body.style.height = 'auto';
-        body.dataset.originalHeight = body.scrollHeight;
-
-        // Восстанавливаем исходное состояние
-        if (originalDisplay) {
-          body.style.display = originalDisplay;
-        } else if (!body.previousElementSibling.classList.contains('_spoller-active')) {
-          body.style.display = 'none';
-          body.style.height = '0';
-        } else {
-          body.style.display = 'block';
-          body.style.height = 'auto';
-        }
-      }
-    });
-  }, 100);
-});
-
 
 //========================================================================================================================================================
 
