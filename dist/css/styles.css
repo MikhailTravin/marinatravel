@@ -2021,7 +2021,6 @@ a {
 }
 .spollers__item {
   border-radius: 20px;
-  padding: 10px;
   background-color: #f2fafb;
 }
 .spollers__button {
@@ -2954,7 +2953,7 @@ a {
 }
 .block-banner__arrow {
   position: relative;
-  z-index: 10;
+  z-index: 21;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3013,6 +3012,7 @@ a {
     width: calc(100% + 10px);
     opacity: 0;
     pointer-events: none;
+    z-index: 20;
     -webkit-transition: opacity 0.3s;
     transition: opacity 0.3s;
   }
@@ -3124,10 +3124,17 @@ a {
     width: 100%;
     width: 430px;
     opacity: 0;
+    height: 380px;
     pointer-events: none;
     -webkit-transition: opacity 0.3s;
     transition: opacity 0.3s;
     padding: 0px 0px 0px 30px;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .dropdowm__body::-webkit-scrollbar {
+    display: none;
   }
 }
 @media (max-width: 992px) {
@@ -6409,7 +6416,7 @@ a {
 }
 
 .fancybox__carousel {
-  max-width: 1280;
+  max-width: 1280px;
   margin: 0 auto;
 }
 

@@ -38,74 +38,90 @@ function functions_FLS(message) {
   }), 0);
 }
 
-let _slideUp = (target, duration = 500, showmore = 0) => {
+let _slideUp = (target, duration = 500) => {
   if (!target.classList.contains("_slide")) {
     target.classList.add("_slide");
-    target.style.transitionProperty = "height, margin, padding";
-    target.style.transitionDuration = duration + "ms";
-    target.style.height = `${target.offsetHeight}px`;
+
+    // Сохраняем текущую высоту
+    const currentHeight = target.scrollHeight;
+
+    target.style.transitionProperty = 'height, margin, padding';
+    target.style.transitionDuration = duration + 'ms';
+    target.style.transitionTimingFunction = 'ease';
+    target.style.height = currentHeight + 'px';
+    target.style.overflow = 'hidden';
+
+    // Принудительный reflow
     target.offsetHeight;
-    target.style.overflow = "hidden";
-    target.style.height = showmore ? `${showmore}px` : `0px`;
-    target.style.paddingTop = 0;
-    target.style.paddingBottom = 0;
-    target.style.marginTop = 0;
-    target.style.marginBottom = 0;
-    window.setTimeout((() => {
-      target.hidden = !showmore ? true : false;
-      !showmore ? target.style.removeProperty("height") : null;
-      target.style.removeProperty("padding-top");
-      target.style.removeProperty("padding-bottom");
-      target.style.removeProperty("margin-top");
-      target.style.removeProperty("margin-bottom");
-      !showmore ? target.style.removeProperty("overflow") : null;
-      target.style.removeProperty("transition-duration");
-      target.style.removeProperty("transition-property");
-      target.classList.remove("_slide");
-      document.dispatchEvent(new CustomEvent("slideUpDone", {
-        detail: {
-          target
-        }
-      }));
-    }), duration);
+
+    target.style.height = '0';
+    target.style.paddingTop = '0';
+    target.style.paddingBottom = '0';
+    target.style.marginTop = '0';
+    target.style.marginBottom = '0';
+
+    window.setTimeout(() => {
+      target.style.display = 'none';
+      target.style.removeProperty('height');
+      target.style.removeProperty('padding-top');
+      target.style.removeProperty('padding-bottom');
+      target.style.removeProperty('margin-top');
+      target.style.removeProperty('margin-bottom');
+      target.style.removeProperty('overflow');
+      target.style.removeProperty('transition-duration');
+      target.style.removeProperty('transition-property');
+      target.style.removeProperty('transition-timing-function');
+      target.classList.remove('_slide');
+    }, duration);
   }
 };
+
 let _slideDown = (target, duration = 500, showmore = 0) => {
   if (!target.classList.contains("_slide")) {
     target.classList.add("_slide");
-    target.hidden = target.hidden ? false : null;
-    showmore ? target.style.removeProperty("height") : null;
-    let height = target.offsetHeight;
-    target.style.overflow = "hidden";
-    target.style.height = showmore ? `${showmore}px` : `0px`;
-    target.style.paddingTop = 0;
-    target.style.paddingBottom = 0;
-    target.style.marginTop = 0;
-    target.style.marginBottom = 0;
+
+    // Показываем элемент
+    target.style.display = 'block';
+    target.style.overflow = 'hidden';
+
+    let height = showmore || target.dataset.originalHeight || target.scrollHeight;
+
+    target.style.height = '0';
+    target.style.paddingTop = '0';
+    target.style.paddingBottom = '0';
+    target.style.marginTop = '0';
+    target.style.marginBottom = '0';
+
+    // Принудительный reflow
     target.offsetHeight;
-    target.style.transitionProperty = "height, margin, padding";
-    target.style.transitionDuration = duration + "ms";
-    target.style.height = height + "px";
-    target.style.removeProperty("padding-top");
-    target.style.removeProperty("padding-bottom");
-    target.style.removeProperty("margin-top");
-    target.style.removeProperty("margin-bottom");
-    window.setTimeout((() => {
-      target.style.removeProperty("height");
-      target.style.removeProperty("overflow");
-      target.style.removeProperty("transition-duration");
-      target.style.removeProperty("transition-property");
-      target.classList.remove("_slide");
-      document.dispatchEvent(new CustomEvent("slideDownDone", {
-        detail: {
-          target
-        }
-      }));
-    }), duration);
+
+    target.style.transitionProperty = 'height, margin, padding';
+    target.style.transitionDuration = duration + 'ms';
+    target.style.transitionTimingFunction = 'ease';
+    target.style.height = height + 'px';
+
+    target.style.removeProperty('padding-top');
+    target.style.removeProperty('padding-bottom');
+    target.style.removeProperty('margin-top');
+    target.style.removeProperty('margin-bottom');
+
+    window.setTimeout(() => {
+      target.style.removeProperty('height');
+      target.style.removeProperty('overflow');
+      target.style.removeProperty('transition-duration');
+      target.style.removeProperty('transition-property');
+      target.style.removeProperty('transition-timing-function');
+      target.classList.remove('_slide');
+    }, duration);
   }
 };
 let _slideToggle = (target, duration = 500) => {
-  if (target.hidden) return _slideDown(target, duration); else return _slideUp(target, duration);
+  if (target.style.display === 'none' || getComputedStyle(target).display === 'none') {
+    const originalHeight = target.dataset.originalHeight || target.scrollHeight;
+    _slideDown(target, duration, originalHeight);
+  } else {
+    _slideUp(target, duration);
+  }
 };
 
 function getHash() {
@@ -158,23 +174,31 @@ window.addEventListener('load', function () {
 
 //========================================================================================================================================================
 
-//Спойлер
+
+//Cпойлер
 function spollers() {
   const spollersArray = document.querySelectorAll("[data-spollers]");
   if (spollersArray.length > 0) {
-    const spollersRegular = Array.from(spollersArray).filter((function (item, index, self) {
+    const spollersRegular = Array.from(spollersArray).filter(function (item, index, self) {
       return !item.dataset.spollers.split(",")[0];
-    }));
-    if (spollersRegular.length) initSpollers(spollersRegular);
+    });
+
+    if (spollersRegular.length) {
+      initSpollers(spollersRegular);
+    }
+
     let mdQueriesArray = dataMediaQueries(spollersArray, "spollers");
-    if (mdQueriesArray && mdQueriesArray.length) mdQueriesArray.forEach((mdQueriesItem => {
-      mdQueriesItem.matchMedia.addEventListener("change", (function () {
+    if (mdQueriesArray && mdQueriesArray.length) {
+      mdQueriesArray.forEach(mdQueriesItem => {
+        mdQueriesItem.matchMedia.addEventListener("change", function () {
+          initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
+        });
         initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-      }));
-      initSpollers(mdQueriesItem.itemsArray, mdQueriesItem.matchMedia);
-    }));
+      });
+    }
+
     function initSpollers(spollersArray, matchMedia = false) {
-      spollersArray.forEach((spollersBlock => {
+      spollersArray.forEach(spollersBlock => {
         spollersBlock = matchMedia ? spollersBlock.item : spollersBlock;
         if (matchMedia.matches || !matchMedia) {
           spollersBlock.classList.add("_spoller-init");
@@ -185,29 +209,52 @@ function spollers() {
           initSpollerBody(spollersBlock, false);
           spollersBlock.removeEventListener("click", setSpollerAction);
         }
-      }));
+      });
     }
+
     function initSpollerBody(spollersBlock, hideSpollerBody = true) {
       let spollerTitles = spollersBlock.querySelectorAll("[data-spoller]");
       if (spollerTitles.length) {
-        spollerTitles = Array.from(spollerTitles).filter((item => item.closest("[data-spollers]") === spollersBlock));
-        spollerTitles.forEach((spollerTitle => {
+        spollerTitles = Array.from(spollerTitles).filter(item => item.closest("[data-spollers]") === spollersBlock);
+        spollerTitles.forEach(spollerTitle => {
+          const spollerBody = spollerTitle.nextElementSibling;
+
+          // Сохраняем исходную высоту
+          if (!spollerBody.dataset.originalHeight) {
+            // Временно показываем для измерения высоты
+            spollerBody.style.display = 'block';
+            spollerBody.style.height = 'auto';
+            spollerBody.dataset.originalHeight = spollerBody.scrollHeight;
+
+            if (hideSpollerBody && !spollerTitle.classList.contains("_spoller-active")) {
+              spollerBody.style.display = 'none';
+              spollerBody.style.height = '0';
+            } else {
+              spollerBody.style.display = 'block';
+              spollerBody.style.height = 'auto';
+            }
+          }
+
           if (hideSpollerBody) {
             spollerTitle.removeAttribute("tabindex");
             if (!spollerTitle.classList.contains("_spoller-active")) {
-              spollerTitle.nextElementSibling.hidden = true;
-              const parentWithActive = spollerTitle.closest('._spoller-active');
-              if (parentWithActive) {
-                parentWithActive.classList.remove('_spoller-active');
-              }
+              spollerBody.style.display = 'none';
+              spollerBody.style.height = '0';
+              spollerBody.style.overflow = 'hidden';
+            } else {
+              spollerBody.style.display = 'block';
+              spollerBody.style.height = 'auto';
             }
           } else {
             spollerTitle.setAttribute("tabindex", "-1");
-            spollerTitle.nextElementSibling.hidden = false;
+            spollerBody.style.display = 'block';
+            spollerBody.style.height = 'auto';
+            spollerBody.style.overflow = '';
           }
-        }));
+        });
       }
     }
+
     function setSpollerAction(e) {
       const el = e.target;
       if (el.closest("[data-spoller]")) {
@@ -221,8 +268,18 @@ function spollers() {
             hideSpollersBody(spollersBlock);
           }
 
-          spollerTitle.classList.toggle("_spoller-active");
-          _slideToggle(spollerTitle.nextElementSibling, spollerSpeed);
+          const spollerBody = spollerTitle.nextElementSibling;
+          const originalHeight = spollerBody.dataset.originalHeight || spollerBody.scrollHeight;
+
+          if (spollerTitle.classList.contains("_spoller-active")) {
+            // Закрываем
+            spollerTitle.classList.remove("_spoller-active");
+            _slideUp(spollerBody, spollerSpeed);
+          } else {
+            // Открываем
+            spollerTitle.classList.add("_spoller-active");
+            _slideDown(spollerBody, spollerSpeed, originalHeight);
+          }
 
           const parentElement = spollerTitle.parentElement;
           if (parentElement && parentElement !== spollersBlock) {
@@ -232,6 +289,7 @@ function spollers() {
         e.preventDefault();
       }
     }
+
     function hideSpollersBody(spollersBlock) {
       const spollerActiveTitle = spollersBlock.querySelector("[data-spoller]._spoller-active");
       const spollerSpeed = spollersBlock.dataset.spollersSpeed ? parseInt(spollersBlock.dataset.spollersSpeed) : 500;
@@ -245,24 +303,57 @@ function spollers() {
         }
       }
     }
-    const spollersClose = document.querySelectorAll("[data-spoller-close]");
-    if (spollersClose.length) document.addEventListener("click", (function (e) {
-      const el = e.target;
-      if (!el.closest("[data-spollers]")) spollersClose.forEach((spollerClose => {
-        const spollersBlock = spollerClose.closest("[data-spollers]");
-        const spollerSpeed = spollersBlock.dataset.spollersSpeed ? parseInt(spollersBlock.dataset.spollersSpeed) : 500;
-        spollerClose.classList.remove("_spoller-active");
-        _slideUp(spollerClose.nextElementSibling, spollerSpeed);
 
-        const parentElement = spollerClose.parentElement;
-        if (parentElement && parentElement !== spollersBlock) {
-          parentElement.classList.remove("_spoller-active");
+    const spollersClose = document.querySelectorAll("[data-spoller-close]");
+    if (spollersClose.length) {
+      document.addEventListener("click", function (e) {
+        const el = e.target;
+        if (!el.closest("[data-spollers]")) {
+          spollersClose.forEach(spollerClose => {
+            const spollersBlock = spollerClose.closest("[data-spollers]");
+            const spollerSpeed = spollersBlock.dataset.spollersSpeed ? parseInt(spollersBlock.dataset.spollersSpeed) : 500;
+            spollerClose.classList.remove("_spoller-active");
+            _slideUp(spollerClose.nextElementSibling, spollerSpeed);
+
+            const parentElement = spollerClose.parentElement;
+            if (parentElement && parentElement !== spollersBlock) {
+              parentElement.classList.remove("_spoller-active");
+            }
+          });
         }
-      }));
-    }));
+      });
+    }
   }
 }
+
 spollers()
+// Пересчет высот после полной загрузки
+window.addEventListener("load", function () {
+  setTimeout(() => {
+    const spollerBodies = document.querySelectorAll('[data-spollers] [data-spoller] + *');
+    spollerBodies.forEach(body => {
+      if (!body.dataset.originalHeight) {
+        // Временно показываем для измерения
+        const originalDisplay = body.style.display;
+        body.style.display = 'block';
+        body.style.height = 'auto';
+        body.dataset.originalHeight = body.scrollHeight;
+
+        // Восстанавливаем исходное состояние
+        if (originalDisplay) {
+          body.style.display = originalDisplay;
+        } else if (!body.previousElementSibling.classList.contains('_spoller-active')) {
+          body.style.display = 'none';
+          body.style.height = '0';
+        } else {
+          body.style.display = 'block';
+          body.style.height = 'auto';
+        }
+      }
+    });
+  }, 100);
+});
+
 
 //========================================================================================================================================================
 
@@ -289,13 +380,16 @@ if (iconMenu) {
 // Добавление к шапке при скролле
 const header = document.querySelector('.header');
 if (header) {
-  window.addEventListener('scroll', function () {
+  function checkScroll() {
     if (window.scrollY > 0) {
       header.classList.add('_header-scroll');
     } else {
       header.classList.remove('_header-scroll');
     }
-  });
+  }
+
+  checkScroll();
+  window.addEventListener('scroll', checkScroll);
 }
 
 //========================================================================================================================================================
@@ -1197,251 +1291,3 @@ modules_flsModules.select = new SelectConstructor({});
 
 //========================================================================================================================================================
 
-//Наблюдатель
-class ScrollWatcher {
-  constructor(props) {
-    let defaultConfig = {
-      logging: true,
-    }
-    this.config = Object.assign(defaultConfig, props);
-    this.observer;
-    !document.documentElement.classList.contains('watcher') ? this.scrollWatcherRun() : null;
-  }
-  // Обновляем конструктор
-  scrollWatcherUpdate() {
-    this.scrollWatcherRun();
-  }
-  // Запускаем конструктор
-  scrollWatcherRun() {
-    document.documentElement.classList.add('watcher');
-    this.scrollWatcherConstructor(document.querySelectorAll('[data-watch]'));
-  }
-  // Конструктор наблюдателей
-  scrollWatcherConstructor(items) {
-    if (items.length) {
-      // Уникализируем параметры
-      let uniqParams = uniqArray(Array.from(items).map(function (item) {
-        // Вычисление автоматического Threshold
-        if (item.dataset.watch === 'navigator' && !item.dataset.watchThreshold) {
-          let valueOfThreshold;
-          if (item.clientHeight > 2) {
-            valueOfThreshold =
-              window.innerHeight / 2 / (item.clientHeight - 1);
-            if (valueOfThreshold > 1) {
-              valueOfThreshold = 1;
-            }
-          } else {
-            valueOfThreshold = 1;
-          }
-          item.setAttribute(
-            'data-watch-threshold',
-            valueOfThreshold.toFixed(2)
-          );
-        }
-        return `${item.dataset.watchRoot ? item.dataset.watchRoot : null}|${item.dataset.watchMargin ? item.dataset.watchMargin : '0px'}|${item.dataset.watchThreshold ? item.dataset.watchThreshold : 0}`;
-      }));
-      // Получаем группы объектов с одинаковыми параметрами,
-      // создаем настройки, инициализируем наблюдатель
-      uniqParams.forEach(uniqParam => {
-        let uniqParamArray = uniqParam.split('|');
-        let paramsWatch = {
-          root: uniqParamArray[0],
-          margin: uniqParamArray[1],
-          threshold: uniqParamArray[2]
-        }
-        let groupItems = Array.from(items).filter(function (item) {
-          let watchRoot = item.dataset.watchRoot ? item.dataset.watchRoot : null;
-          let watchMargin = item.dataset.watchMargin ? item.dataset.watchMargin : '0px';
-          let watchThreshold = item.dataset.watchThreshold ? item.dataset.watchThreshold : 0;
-          if (
-            String(watchRoot) === paramsWatch.root &&
-            String(watchMargin) === paramsWatch.margin &&
-            String(watchThreshold) === paramsWatch.threshold
-          ) {
-            return item;
-          }
-        });
-
-        let configWatcher = this.getScrollWatcherConfig(paramsWatch);
-
-        // Инициализация наблюдателя со своими настройками
-        this.scrollWatcherInit(groupItems, configWatcher);
-      });
-    }
-  }
-  // Функция создания настроек
-  getScrollWatcherConfig(paramsWatch) {
-    //Создаем настройки
-    let configWatcher = {}
-    // Родитель, в котором ведется наблюдение
-    if (document.querySelector(paramsWatch.root)) {
-      configWatcher.root = document.querySelector(paramsWatch.root);
-    }
-    // Отступление срабатывания
-    configWatcher.rootMargin = paramsWatch.margin;
-    if (paramsWatch.margin.indexOf('px') < 0 && paramsWatch.margin.indexOf('%') < 0) {
-      return
-    }
-    // Точки срабатывания
-    if (paramsWatch.threshold === 'prx') {
-      // Режим паралакса
-      paramsWatch.threshold = [];
-      for (let i = 0; i <= 1.0; i += 0.005) {
-        paramsWatch.threshold.push(i);
-      }
-    } else {
-      paramsWatch.threshold = paramsWatch.threshold.split(',');
-    }
-    configWatcher.threshold = paramsWatch.threshold;
-
-    return configWatcher;
-  }
-  // Функция создания нового наблюдателя со своими настройками
-  scrollWatcherCreate(configWatcher) {
-    console.log(configWatcher);
-    this.observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        this.scrollWatcherCallback(entry, observer);
-      });
-    }, configWatcher);
-  }
-  // Функция инициализации наблюдателя со своими настройками
-  scrollWatcherInit(items, configWatcher) {
-    // Создание нового наблюдателя со своими настройками
-    this.scrollWatcherCreate(configWatcher);
-    // Передача наблюдателю элементов
-    items.forEach(item => this.observer.observe(item));
-  }
-  // Функция обработки базовых действий точек срабатывания
-  scrollWatcherIntersecting(entry, targetElement) {
-    if (entry.isIntersecting) {
-      // Видим объект
-      // Добавляем класс
-      !targetElement.classList.contains('_watcher-view') ? targetElement.classList.add('_watcher-view') : null;
-    } else {
-      // Не видим объект
-      // Забираем класс
-      targetElement.classList.contains('_watcher-view') ? targetElement.classList.remove('_watcher-view') : null;
-    }
-  }
-  // Функция отключения слежения за объектом
-  scrollWatcherOff(targetElement, observer) {
-    observer.unobserve(targetElement);
-  }
-  // Функция обработки наблюдения
-  scrollWatcherCallback(entry, observer) {
-    const targetElement = entry.target;
-    // Обработка базовых действий точек срабатывания
-    this.scrollWatcherIntersecting(entry, targetElement);
-    // Если есть атрибут data-watch-once убираем слежку 
-    // Если есть атрибут data-watch-once убираем слежку
-    targetElement.hasAttribute('data-watch-once') && entry.isIntersecting ? this.scrollWatcherOff(targetElement, observer) : null;
-    // Создаем свое событие обратной связи
-    document.dispatchEvent(new CustomEvent("watcherCallback", {
-      detail: {
-        entry: entry
-      }
-    }));
-  }
-}
-modules_flsModules.watcher = new ScrollWatcher({});
-
-//========================================================================================================================================================
-
-//Прокрутка к блоку
-let gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) => {
-  const targetBlockElement = document.querySelector(targetBlock);
-  if (targetBlockElement) {
-    let headerItem = '';
-    let headerItemHeight = 0;
-    if (noHeader) {
-      headerItem = 'header.header';
-      const headerElement = document.querySelector(headerItem);
-      if (!headerElement.classList.contains('_header-scroll')) {
-        headerElement.style.cssText = `transition-duration: 0s;`;
-        headerElement.classList.add('_header-scroll');
-        headerItemHeight = headerElement.offsetHeight;
-        headerElement.classList.remove('_header-scroll');
-        setTimeout(() => {
-          headerElement.style.cssText = ``;
-        }, 0);
-      } else {
-        headerItemHeight = headerElement.offsetHeight;
-      }
-    }
-    let options = {
-      speedAsDuration: true,
-      speed: speed,
-      header: headerItem,
-      offset: offsetTop,
-      easing: 'easeOutQuad',
-    };
-    // Закриваємо меню, якщо воно відкрите
-    document.documentElement.classList.contains("menu-open") ? menuClose() : null;
-
-    if (typeof SmoothScroll !== 'undefined') {
-      // Прокручування з використанням доповнення
-      new SmoothScroll().animateScroll(targetBlockElement, '', options);
-    } else {
-      // Прокручування стандартними засобами
-      let targetBlockElementPosition = targetBlockElement.getBoundingClientRect().top + scrollY;
-      targetBlockElementPosition = headerItemHeight ? targetBlockElementPosition - headerItemHeight : targetBlockElementPosition;
-      targetBlockElementPosition = offsetTop ? targetBlockElementPosition - offsetTop : targetBlockElementPosition;
-      window.scrollTo({
-        top: targetBlockElementPosition,
-        behavior: "smooth"
-      });
-    }
-  }
-};
-function pageNavigation() {
-  document.addEventListener("click", pageNavigationAction);
-  document.addEventListener("watcherCallback", pageNavigationAction);
-  function pageNavigationAction(e) {
-    if (e.type === "click") {
-      const targetElement = e.target;
-      if (targetElement.closest('[data-goto]')) {
-        const gotoLink = targetElement.closest('[data-goto]');
-        const gotoLinkSelector = gotoLink.dataset.goto ? gotoLink.dataset.goto : '';
-        const noHeader = gotoLink.hasAttribute('data-goto-header') ? true : false;
-        const gotoSpeed = gotoLink.dataset.gotoSpeed ? gotoLink.dataset.gotoSpeed : 500;
-        const offsetTop = gotoLink.dataset.gotoTop ? parseInt(gotoLink.dataset.gotoTop) : 0;
-        if (modules_flsModules.fullpage) {
-          const fullpageSection = document.querySelector(`${gotoLinkSelector}`).closest('[data-fp-section]');
-          const fullpageSectionId = fullpageSection ? +fullpageSection.dataset.fpId : null;
-          if (fullpageSectionId !== null) {
-            modules_flsModules.fullpage.switchingSection(fullpageSectionId);
-            document.documentElement.classList.contains("menu-open") ? menuClose() : null;
-          }
-        } else {
-          gotoBlock(gotoLinkSelector, noHeader, gotoSpeed, offsetTop);
-        }
-        e.preventDefault();
-      }
-    } else if (e.type === "watcherCallback" && e.detail) {
-      const entry = e.detail.entry;
-      const targetElement = entry.target;
-      if (targetElement.dataset.watch === 'navigator') {
-        const navigatorActiveItem = document.querySelector(`[data-goto]._navigator-active`);
-        let navigatorCurrentItem;
-        if (targetElement.id && document.querySelector(`[data-goto="#${targetElement.id}"]`)) {
-          navigatorCurrentItem = document.querySelector(`[data-goto="#${targetElement.id}"]`);
-        } else if (targetElement.classList.length) {
-          for (let index = 0; index < targetElement.classList.length; index++) {
-            const element = targetElement.classList[index];
-            if (document.querySelector(`[data-goto=".${element}"]`)) {
-              navigatorCurrentItem = document.querySelector(`[data-goto=".${element}"]`);
-              break;
-            }
-          }
-        }
-        if (entry.isIntersecting) {
-          navigatorCurrentItem ? navigatorCurrentItem.classList.add('_navigator-active') : null;
-        } else {
-          navigatorCurrentItem ? navigatorCurrentItem.classList.remove('_navigator-active') : null;
-        }
-      }
-    }
-  }
-}
-pageNavigation()
