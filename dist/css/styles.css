@@ -2535,6 +2535,8 @@ a {
   z-index: 10;
 }
 .breadcrumbs ul {
+  position: relative;
+  z-index: 10;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2587,6 +2589,20 @@ a {
 @media (max-width: 768px) {
   .breadcrumbs ul span {
     text-shadow: 3px 3px 5px #fff;
+  }
+}
+
+@media (max-width: 768px) {
+  .breadcrumbs2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    -webkit-filter: blur(5px);
+            filter: blur(5px);
   }
 }
 
